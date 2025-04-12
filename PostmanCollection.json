@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "Tokenizer API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Generate Tokens",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"piiValues\": [\"John Doe\", \"9876543210\"] }"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/tokenizer/generate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "tokenizer", "generate"]
+        }
+      }
+    },
+    {
+      "name": "Resolve Token",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/tokenizer/resolve/{{token}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "tokenizer", "resolve", "{{token}}"]
+        }
+      }
+    }
+  ]
+}
