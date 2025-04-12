@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS tokenizer_db;
+
+-- Use the database
+USE tokenizer_db;
+
+-- Create the token_mapping table
+CREATE TABLE IF NOT EXISTS token_mapping (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    pii_value TEXT NOT NULL
+);
+
+CREATE INDEX idx_token ON token_mapping(token);
+CREATE INDEX idx_pii_value ON token_mapping(pii_value(255));
