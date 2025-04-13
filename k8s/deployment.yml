@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tokenizer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tokenizer-service
+  template:
+    metadata:
+      labels:
+        app:tokenizer-service
+    spec:
+      containers:
+        - name: tokenizer-service
+          image: gcr.io/vcc-assignment-3-454617/tokenizer-service:latest  # Replace with your actual image path
+          ports:
+            - containerPort: 8080
+        

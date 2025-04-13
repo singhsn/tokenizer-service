@@ -2,6 +2,8 @@ package com.cipherone.tokenizer.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 /**
  * @author sachchidanand singh
  */
@@ -19,6 +21,16 @@ public class TokenMapping {
 
     @Column
     private String piiValue;
+
+    @Column
+    private LocalDateTime expiresAt;
+
+    public LocalDateTime getExpiresAt() {
+        return expiresAt;
+    }
+    public void setExpiresAt(LocalDateTime expiresAt) {
+        this.expiresAt = expiresAt;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -29,4 +29,11 @@ public class TokenController {
     public String resolveToken(@PathVariable String token) {
         return tokenizerService.resolveToken(token);
     }
+
+    @Operation(summary = "Refresh a token for the given PII")
+    @PostMapping("/refresh")
+    public TokenResponse refreshToken(@RequestBody TokenRequest request) {
+        return tokenizerService.refreshTokens(request);
+    }
+
 }
