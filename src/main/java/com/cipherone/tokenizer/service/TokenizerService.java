@@ -20,23 +20,26 @@ public class TokenizerService {
         Map<String, String> tokenMap = new HashMap<>();
         LocalDateTime now = LocalDateTime.now();
 
-        for (String pii : request.getPiiValues()) {
-            Optional<TokenMapping> existing = tokenRepo.findByPiiValue(pii);
+        for (Map.Entry<String, String> entry : request.getPiiMap().entrySet()) {
+            String label = entry.getKey();         // e.g., "name"
+            String piiValue = entry.getValue();    // e.g., "sachin"
+
+            Optional<TokenMapping> existing = tokenRepo.findByPiiValue(piiValue);
 
             String token = existing
-                    .filter(mapping -> mapping.getExpiresAt().isAfter(now)) // not expired
+                    .filter(mapping -> mapping.getExpiresAt().isAfter(now))
                     .map(TokenMapping::getToken)
                     .orElseGet(() -> {
                         String newToken = UUID.randomUUID().toString();
                         TokenMapping mapping = new TokenMapping();
-                        mapping.setPiiValue(pii);
+                        mapping.setPiiValue(piiValue);
                         mapping.setToken(newToken);
-                        mapping.setExpiresAt(now.plusSeconds(60)); // 24h validity
+                        mapping.setExpiresAt(now.plusDays(60)); // change to 86400 for 24h
                         tokenRepo.save(mapping);
                         return newToken;
                     });
 
-            tokenMap.put(pii, token);
+            tokenMap.put(label, token);
         }
 
         TokenResponse response = new TokenResponse();
@@ -53,24 +56,20 @@ public class TokenizerService {
         Map<String, String> tokenMap = new HashMap<>();
         LocalDateTime now = LocalDateTime.now();
 
-        for (String pii : request.getPiiValues()) {
-            Optional<TokenMapping> existing = tokenRepo.findByPiiValue(pii);
+        for (Map.Entry<String, String> entry : request.getPiiMap().entrySet()) {
+            String label = entry.getKey();         // e.g., "name"
+            String piiValue = entry.getValue();    // e.g., "sachin"
             String newToken = UUID.randomUUID().toString();
 
-            if (existing.isPresent()) {
-                TokenMapping mapping = existing.get();
-                mapping.setToken(newToken);
-                mapping.setExpiresAt(now.plusHours(24));
-                tokenRepo.save(mapping);
-            } else {
-                TokenMapping mapping = new TokenMapping();
-                mapping.setPiiValue(pii);
-                mapping.setToken(newToken);
-                mapping.setExpiresAt(now.plusHours(24));
-                tokenRepo.save(mapping);
-            }
+            Optional<TokenMapping> existing = tokenRepo.findByPiiValue(piiValue);
 
-            tokenMap.put(pii, newToken);
+            TokenMapping mapping = existing.orElseGet(TokenMapping::new);
+            mapping.setPiiValue(piiValue);
+            mapping.setToken(newToken);
+            mapping.setExpiresAt(now.plusHours(24));
+            tokenRepo.save(mapping);
+
+            tokenMap.put(label, newToken);
         }
 
         TokenResponse response = new TokenResponse();

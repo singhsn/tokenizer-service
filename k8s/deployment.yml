@@ -10,11 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app:tokenizer-service
+        app: tokenizer-service
     spec:
       containers:
         - name: tokenizer-service
-          image: gcr.io/vcc-assignment-3-454617/tokenizer-service:latest  # Replace with your actual image path
+          image: gcr.io/vcc-assignment-3-454617/tokenizer-service:latest
           ports:
             - containerPort: 8080
-        

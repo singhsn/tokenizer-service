@@ -1,19 +1,19 @@
 package com.cipherone.tokenizer.model;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author sachchidanand singh
  */
 
 public class TokenRequest {
-    private List<String> piiValues;
+    private Map<String, String> piiMap;
 
-    public List<String> getPiiValues() {
-        return piiValues;
+    public Map<String, String> getPiiMap() {
+        return piiMap;
     }
 
-    public void setPiiValues(List<String> piiValues) {
-        this.piiValues = piiValues;
+    public void setPiiMap(Map<String, String> piiMap) {
+        this.piiMap = piiMap;
     }
 }
